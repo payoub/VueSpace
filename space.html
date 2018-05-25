@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"> 
+  <title>VueSpace</title>
+  <script src="https://unpkg.com/vue@2.5.16/dist/vue.min.js"></script>
+  <style>
+
+    html, body {
+      margin: 0;	    
+      background: black;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .ship {
+	max-width: 256px;
+	max-height: 256px;
+	background-image: url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA1MDQuMTI0IDUwNC4xMjQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUwNC4xMjQgNTA0LjEyNDsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSIzMnB4IiBoZWlnaHQ9IjMycHgiPgo8cGF0aCBzdHlsZT0iZmlsbDojMzI0RDVCOyIgZD0iTTI1Mi4yNTgsMzg1Ljk2OWMtMjUuOTk0LDAtNDcuMjYyLDIxLjI2OC00Ny4yNjIsNDcuMjYyczIxLjI2OCw0Ny4yNjIsNDcuMjYyLDQ3LjI2MiAgczQ3LjI2Mi0yMS4yNjgsNDcuMjYyLTQ3LjI2MlMyNzguMjUyLDM4NS45NjksMjUyLjI1OCwzODUuOTY5eiBNMzc4LjI4OSwzNTQuNDYyYy0yNS45OTQsMC00Ny4yNjIsMjEuMjY4LTQ3LjI2Miw0Ny4yNjIgIHMyMS4yNjgsNDcuMjYyLDQ3LjI2Miw0Ny4yNjJzNDcuMjYyLTIxLjI2OCw0Ny4yNjItNDcuMjYyUzQwNC4yODMsMzU0LjQ2MiwzNzguMjg5LDM1NC40NjJ6IE0xMjYuMjI4LDM1NC40NjIgIGMtMjUuOTk0LDAtNDcuMjYyLDIxLjI2OC00Ny4yNjIsNDcuMjYyczIxLjI2OCw0Ny4yNjIsNDcuMjYyLDQ3LjI2MnM0Ny4yNjItMjEuMjY4LDQ3LjI2Mi00Ny4yNjJTMTUyLjIyMiwzNTQuNDYyLDEyNi4yMjgsMzU0LjQ2MnogICIvPgo8cGF0aCBzdHlsZT0iZmlsbDojRTI1NzRDOyIgZD0iTTEwNy4zMjMsMjMzLjk0NWM3OS45NTEtNDkuMjMxLDIwOS41MjYtNDkuMjMxLDI4OS40NzcsMHM3OS45NTEsMTI5LjE4MiwwLDE3OC4wMTggIGMtNzkuOTUxLDQ5LjIzMS0yMDkuNTI2LDQ5LjIzMS0yODkuNDc3LDBTMjcuMzcyLDI4My4xNzUsMTA3LjMyMywyMzMuOTQ1eiIvPgo8cGF0aCBzdHlsZT0iZmlsbDojQ0I0RTQ0OyIgZD0iTTEyNy4wMTUsNDAwLjE0OGMtNzcuMTk0LTQ3LjY1NS03OS45NTEtMTIzLjY2OC03Ljg3Ny0xNzIuODk4ICBjLTMuOTM4LDEuOTY5LTcuODc3LDQuMzMyLTExLjgxNSw2LjY5NWMtNzkuOTUxLDQ5LjIzMS03OS45NTEsMTI5LjE4MiwwLDE3OC4wMThjNzkuOTUxLDQ5LjIzMSwyMDkuNTI2LDQ5LjIzMSwyODkuNDc3LDAgIGMyLjc1Ny0xLjU3NSw1LjUxNC0zLjU0NSw3Ljg3Ny01LjEyQzMyNC4zMzIsNDQ5LjM3OCwyMDMuMDI4LDQ0Ny4wMTUsMTI3LjAxNSw0MDAuMTQ4eiIvPgo8cGF0aCBzdHlsZT0iZmlsbDojMzI0RDVCOyIgZD0iTTczLjg0NiwxNDYuMTE3Yzk4LjQ2Mi01OC4yODksMjU3Ljk2OS01OC4yODksMzU2LjQzMSwwczk4LjQ2MiwxNTMuMjA2LDAsMjExLjQ5NSAgcy0yNTcuOTY5LDU4LjI4OS0zNTYuNDMxLDBTLTI0LjYxNSwyMDQuOCw3My44NDYsMTQ2LjExN3oiLz4KPHBhdGggc3R5bGU9ImZpbGw6IzJENDU1MjsiIGQ9Ik00NDYuNDI1LDM0Mi4yNTJjLTk4LjQ2Miw1OC4yODktMjU3Ljk2OSw1OC4yODktMzU2LjQzMSwwICBDMTAuNDM3LDI5NC45OS00LjkyMywyMjQuNDkyLDQzLjUyLDE2OC4xNzJjLTY2LjU2LDU4LjI4OS01Ni4zMiwxMzguMjQsMzAuMzI2LDE4OS44MzRjOTguNDYyLDU4LjI4OSwyNTcuOTY5LDU4LjI4OSwzNTYuNDMxLDAgIGMxOC45MDUtMTEuNDIyLDM0LjI2NS0yNC4wMjUsNDYuMDgtMzcuNDE1QzQ2Ny42OTIsMzI4LjA3NCw0NTcuODQ2LDMzNS4xNjMsNDQ2LjQyNSwzNDIuMjUyeiIvPgo8cGF0aCBzdHlsZT0iZmlsbDojRTRFN0U3OyIgZD0iTTI1Mi4yNTgsMjMuNjMxYzg3LjA0LDAsMTU3LjUzOCw3MC40OTgsMTU3LjUzOCwxNTcuNTM4UzMzOS4yOTgsMzA3LjIsMjUyLjI1OCwzMDcuMiAgUzk0LjcyLDI2OC4yMDksOTQuNzIsMTgxLjE2OVMxNjUuMjE4LDIzLjYzMSwyNTIuMjU4LDIzLjYzMXoiLz4KPHBhdGggc3R5bGU9ImZpbGw6I0Q4REJEQjsiIGQ9Ik05NC43MiwxODEuMTY5YzAsODYuNjQ2LDcwLjEwNSwxMjUuNjM3LDE1Ni4zNTcsMTI2LjAzMWgxLjE4MlYyMy42MzEgIEMxNjUuMjE4LDIzLjYzMSw5NC43Miw5NC4xMjksOTQuNzIsMTgxLjE2OXoiLz4KPHBhdGggc3R5bGU9ImZpbGw6IzNEQjM5RTsiIGQ9Ik0yNTIuMjU4LDMwNy4yYzM1LjQ0NiwwLDY4LjEzNS02LjMwMiw5NC41MjMtMjAuMDg2VjE4MS4xNjljMC01Mi4zODItNDIuMTQyLTk0LjUyMy05NC41MjMtOTQuNTIzICBzLTk0LjUyMyw0Mi4xNDItOTQuNTIzLDk0LjUyM3YxMDUuOTQ1QzE4NC4xMjMsMzAwLjg5OCwyMTYuODEyLDMwNy4yLDI1Mi4yNTgsMzA3LjJ6Ii8+CjxwYXRoIHN0eWxlPSJmaWxsOiMzQUFBOTY7IiBkPSJNMTU3LjczNSwxODEuMTY5djEwNS45NDVjMjUuOTk0LDEzLjM5MSw1OC42ODMsMjAuMDg2LDkzLjczNSwyMC4wODZoMC43ODhWODYuNjQ2ICBDMTk5Ljg3Nyw4Ni42NDYsMTU3LjczNSwxMjkuMTgyLDE1Ny43MzUsMTgxLjE2OXoiLz4KPHBhdGggc3R5bGU9ImZpbGw6I0ZGRkZGRjsiIGQ9Ik0yNTIuMjU4LDE0OS42NjJjMjUuOTk0LDAsNDcuMjYyLDIxLjI2OCw0Ny4yNjIsNDcuMjYycy0yMS4yNjgsNDcuMjYyLTQ3LjI2Miw0Ny4yNjIgIHMtNDcuMjYyLTIxLjI2OC00Ny4yNjItNDcuMjYyUzIyNi4yNjUsMTQ5LjY2MiwyNTIuMjU4LDE0OS42NjJ6Ii8+CjxwYXRoIHN0eWxlPSJmaWxsOiNGMkYyRjI7IiBkPSJNMjUyLjI1OCwxNDkuNjYyYy0yNS45OTQsMC00Ny4yNjIsMjEuMjY4LTQ3LjI2Miw0Ny4yNjJzMjEuMjY4LDQ3LjI2Miw0Ny4yNjIsNDcuMjYyVjE0OS42NjJ6Ii8+CjxwYXRoIHN0eWxlPSJmaWxsOiMzMjRENUI7IiBkPSJNMjUyLjI1OCwxNzMuMjkyYzEyLjk5NywwLDIzLjYzMSwxMC42MzQsMjMuNjMxLDIzLjYzMXMtMTAuNjM0LDIzLjYzMS0yMy42MzEsMjMuNjMxICBzLTIzLjYzMS0xMC42MzQtMjMuNjMxLTIzLjYzMVMyMzkuMjYyLDE3My4yOTIsMjUyLjI1OCwxNzMuMjkyeiIvPgo8cGF0aCBzdHlsZT0iZmlsbDojMkY0OTU2OyIgZD0iTTI1Mi4yNTgsMTczLjI5MmMtMTIuOTk3LDAtMjMuNjMxLDEwLjYzNC0yMy42MzEsMjMuNjMxczEwLjYzNCwyMy42MzEsMjMuNjMxLDIzLjYzMVYxNzMuMjkyeiIvPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K);
+        background-size: contain;
+        position: absolute;
+	z-index: 999;
+        background-repeat: no-repeat;
+    }
+
+    .spaceBg {
+      background-color: black;
+      background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 10px), radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 5px), radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 10px), radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 5px);
+      background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;
+      background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+      min-height: 100%;
+    }
+
+    .asteroid {
+      max-width: 256px;
+      max-height: 256px;
+      background-image: url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4Ij4KPHBhdGggc3R5bGU9ImZpbGw6IzRBOERDNjsiIGQ9Ik0yOTkuNzQ5LDExLjc0MmwtNzcuODgyLDkwLjk1NXYxNy4wNjdjNjEuNDU0LDAsMTEyLjU1OC00NC4yOTMsMTIzLjE0Mi0xMDIuNjk1ICBDMzMwLjMzNywxMy43MzUsMzE1LjE2NywxMS45ODIsMjk5Ljc0OSwxMS43NDJ6Ii8+CjxwYXRoIHN0eWxlPSJmaWxsOiM3N0FBRDQ7IiBkPSJNMjk5LjQ0OCwxNC4wMjZsMC4zMDItMi4yODVjLTU4Ljc5Ny0wLjkxOC0xMjEuMjU1LDIwLjQ4LTE3My45MTYsNjMuMTE4ICBjMjIuOTU4LDI3LjQ0NCw1Ny40NTQsNDQuOTA0LDk2LjAzNCw0NC45MDR2LTE3LjA2N0MyNjAuMDI4LDEwMi42OTcsMjkyLjY1Niw2NS40MDUsMjk5LjQ0OCwxNC4wMjZ6Ii8+CjxwYXRoIHN0eWxlPSJmaWxsOiNBNUM2RTM7IiBkPSJNNDk0Ljg5MSwyMDYuNjlDNTA1LjY0NywxOTEuNzQzLDUxMiwxNzMuNDE5LDUxMiwxNTMuNmMwLTQ1LjkxMi0zMy45OTctODMuODYzLTc4LjE4Ni05MC4xMDQgIGMtMjAuOTc2LTE5LjU1My00NS42MS0zMy40NjctNzIuMjkzLTQxLjkyNWMwLjA5My0wLjQ4NiwwLjE5Mi0wLjk3MSwwLjI4MS0xLjQ1OWMxLjY4LTkuMjc0LTQuNDc2LTE4LjE1Ni0xMy43NS0xOS44MzcgIGMtOS4yNzItMS42NzctMTguMTU2LDQuNDc2LTE5LjgzNywxMy43NWMtMi4xMTksMTEuNjg4LTYuMDg2LDIyLjYzNy0xMS41NDMsMzIuNTk0TDIwNy4zNjQsNDg5LjM4MiAgQzIyMy4zODgsNTAzLjQ1MiwyNDQuMzc5LDUxMiwyNjcuMzc4LDUxMmM0MC40NDcsMCw3NC43MTItMjYuMzksODYuNTY4LTYyLjg4NGMxMy40OTktOC4yNDgsMjYuNTY3LTE3Ljc3LDM5LjA0Ny0yOC40OSAgYzExLjg1NiwxLjU2MiwyNC4yNzktMi4yMDMsMzMuMzg4LTExLjMxMmM5LjY5Ni05LjY5NiwxMy4zNDUtMjMuMTQ5LDEwLjk1LTM1LjY3NEM0NzYuMjgsMzIyLjQ3NSw0OTUuODA3LDI2Mi45MDUsNDk0Ljg5MSwyMDYuNjl6Ii8+CjxwYXRoIHN0eWxlPSJmaWxsOiNEMkUzRjE7IiBkPSJNNDYwLjA3LDIyNy4zNjNjNC41MDQtNTMuNDA4LTExLjcxLTEwMS41MTctNDUuNjU4LTEzNS40NjUgIGMtMjUuNDI4LTI1LjQyNy01OS41OTMtNDEuMTM2LTk3Ljc0LTQ1LjI3OWMtMTguNTI4LDMzLjgxMS01NC4zOTUsNTYuMDc4LTk0LjgwNSw1Ni4wNzhjLTMyLjA5MSwwLTYyLjMyMi0xNC4xMzgtODIuOTQ0LTM4Ljc4OCAgYy02LjA0Ny03LjIzMS0xNi44MTMtOC4xODctMjQuMDQtMi4xMzljLTcuMjI5LDYuMDQ3LTguMTg3LDE2LjgxMS0yLjEzOSwyNC4wNGMwLjA0NiwwLjA1NSwwLjA5MiwwLjEwNywwLjEzOCwwLjE2ICBjLTMuNzM2LDMuMzg1LTcuNDE5LDYuODcyLTExLjAzMywxMC40ODZjLTEzLjQ2OCwxMy40NjgtMjUuMzQ3LDI3LjgzMy0zNS42NDgsNDIuODA4QzI3LjMwOCwxNTUuNjI5LDAsMTk0LjA5MSwwLDIzOC45MzMgIGMwLDIxLjU1LDYuMzA5LDQxLjYyNCwxNy4xNzcsNTguNDg0YzEuNDc2LDUxLjIwMiwxOS45NzMsOTkuNDM2LDU2LjI3NCwxMzUuNzM5YzM1Ljg3MSwzNS44NzEsODMuMzg5LDU0LjM2OSwxMzMuOTEzLDU2LjIyNyAgYzY0LjgzOS0yMC40MzgsMTI2LjkwOC01Ny4zMTEsMTc4LjY1My0xMDkuMDU2QzQyOS4wODUsMzM3LjI1OSw0NTUuMzgzLDI4Mi45MzYsNDYwLjA3LDIyNy4zNjN6Ii8+CjxwYXRoIHN0eWxlPSJmaWxsOiM0QThEQzY7IiBkPSJNMjY3LjM3OCwzNjQuMDg5djExMy43NzhjMzEuNDE5LDAsNTYuODg5LTI1LjQ3LDU2Ljg4OS01Ni44ODlTMjk4Ljc5NiwzNjQuMDg5LDI2Ny4zNzgsMzY0LjA4OXoiLz4KPHBhdGggc3R5bGU9ImZpbGw6Izc3QUFENDsiIGQ9Ik0yOTAuMTMzLDQyMC45NzhjMC0zMS40MTktMTAuMTg4LTU2Ljg4OS0yMi43NTYtNTYuODg5Yy0zMS40MTksMC01Ni44ODksMjUuNDctNTYuODg5LDU2Ljg4OSAgczI1LjQ3LDU2Ljg4OSw1Ni44ODksNTYuODg5QzI3OS45NDYsNDc3Ljg2NywyOTAuMTMzLDQ1Mi4zOTcsMjkwLjEzMyw0MjAuOTc4eiIvPgo8cGF0aCBzdHlsZT0iZmlsbDojNEE4REM2OyIgZD0iTTQyMC45NzgsOTYuNzExdjExMy43NzhjMzEuNDE5LDAsNTYuODg5LTI1LjQ3LDU2Ljg4OS01Ni44ODlTNDUyLjM5Niw5Ni43MTEsNDIwLjk3OCw5Ni43MTF6Ii8+CjxwYXRoIHN0eWxlPSJmaWxsOiM3N0FBRDQ7IiBkPSJNNDQzLjczMywxNTMuNmMwLTMxLjQxOS0xMC4xODgtNTYuODg5LTIyLjc1Ni01Ni44ODljLTMxLjQxOSwwLTU2Ljg4OSwyNS40Ny01Ni44ODksNTYuODg5ICBzMjUuNDcsNTYuODg5LDU2Ljg4OSw1Ni44ODlDNDMzLjU0NiwyMTAuNDg5LDQ0My43MzMsMTg1LjAxOSw0NDMuNzMzLDE1My42eiIvPgo8Zz4KCTxjaXJjbGUgc3R5bGU9ImZpbGw6I0E1QzZFMzsiIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjguNTMzIi8+Cgk8Y2lyY2xlIHN0eWxlPSJmaWxsOiNBNUM2RTM7IiBjeD0iMjkwLjEzMyIgY3k9IjIyMS44NjciIHI9IjguNTMzIi8+Cgk8Y2lyY2xlIHN0eWxlPSJmaWxsOiNBNUM2RTM7IiBjeD0iMzgxLjE1NiIgY3k9IjMyOS45NTYiIHI9IjguNTMzIi8+Cgk8Y2lyY2xlIHN0eWxlPSJmaWxsOiNBNUM2RTM7IiBjeD0iMTQyLjIyMiIgY3k9IjQzMi4zNTYiIHI9IjguNTMzIi8+CjwvZz4KPHBhdGggc3R5bGU9ImZpbGw6IzRBOERDNjsiIGQ9Ik0xMDguMDg5LDE2NC45Nzh2MTQ3LjkxMWM0MC44NDQsMCw3My45NTYtMzMuMTEyLDczLjk1Ni03My45NTZTMTQ4LjkzMywxNjQuOTc4LDEwOC4wODksMTY0Ljk3OHoiLz4KPHBhdGggc3R5bGU9ImZpbGw6Izc3QUFENDsiIGQ9Ik0xNDcuOTExLDIzOC45MzNjMC00MC44NDQtMTcuODI5LTczLjk1Ni0zOS44MjItNzMuOTU2Yy00MC44NDQsMC03My45NTYsMzMuMTEyLTczLjk1Niw3My45NTYgIHMzMy4xMTIsNzMuOTU2LDczLjk1Niw3My45NTZDMTMwLjA4MiwzMTIuODg5LDE0Ny45MTEsMjc5Ljc3NywxNDcuOTExLDIzOC45MzN6Ii8+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=);
+      position: absolute;
+      background-size: contain;
+      z-index: 10;
+      background-repeat: no-repeat;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="app" class='spaceBg'>
+      <spaceship v-bind:bounds="bounds"></spaceship>
+      <div class="asteroidField">
+            <asteroid 
+                v-for="a in asteroidField"
+                v-bind:opts="a"
+                v-bind:key="a.id"
+                v-bind:bounds="bounds"
+                v-on:asteroid_stopped="removeAsteroid"
+            ></asteroid>
+      </div>
+  </div>
+
+  <script>
+
+    // ASTEROID COMPONENT
+    Vue.component('asteroid', {
+        props: ['opts','bounds'],    
+        template: '<div class="asteroid" :style=[getStyle]></div>',
+        data: function() {
+           return {
+             velocity: 1,
+             seen: false,
+             pos: {
+                x: this.opts.x, 
+                y: this.opts.y
+             },
+             dest: {
+                x: this.opts.x2,
+                y: this.opts.y2
+             },
+             size: {
+            	height: this.opts.height,
+            	width: this.opts.width
+             },
+             lineError: 0.0,
+             rotation: 0
+           }
+        },
+        computed: {
+            getStyle: function(){
+                return Object.assign(this.getPos, this.getSize, this.getRotation)
+            },
+            getSize: function(){
+                return {height: this.size.height + 'px', width: this.size.width + 'px'}
+            },
+            getPos: function(){
+                return {top: this.pos.y + 'px', left: this.pos.x + 'px'}
+            },
+            getRotation: function(){
+                 return {transform: 'rotate('+this.rotation+'deg)'}
+            }        
+        },
+        mounted: function(){
+            window.requestAnimationFrame(this.fly)
+        },
+        methods: {
+            fly: function(){
+                var oob = this.outOfBounds(this.pos.x, this.pos.y)     
+                animate = true 
+                if(oob && this.seen){ animate = false }
+		if( this.pos.x === this.dest.x && this.pos.y === this.dest.y){ animate = false}
+                if(!oob){ this.seen = true}
+
+        	if(animate){
+        	    this.step()
+                    this.rotate()    
+        	    window.requestAnimationFrame(this.fly)	    
+                }else{
+		    this.$emit('asteroid_stopped', this.opts.id)	
+                }
+            },
+            step: function(){
+                dx = this.dest.x - this.pos.x
+                dy = this.dest.y - this.pos.y
+                dE = Math.abs(dy / dx)
+                
+                this.pos.x += Math.sign(dx)
+                this.lineError += dE    
+                while (this.lineError >= 0.5) { 
+                    this.pos.y += Math.sign(dy)
+                    this.lineError--
+                }
+            },	  
+            rotate: function(){
+                this.rotation += 1 
+            },      
+	    outOfBounds: function(x,y){
+             var offset = (this.size.width / 2) 
+	     if(x < -(this.size.width+offset) || x > (this.bounds.x + this.size.width+offset) ){ return true }		     
+	     if(y < -(this.size.height+offset) || y > (this.bounds.y + this.size.height+offset) ){ return true }		     
+	     return false
+	   },
+        }
+
+    })
+    
+
+
+
+
+    // SPACESHIP COMPONENT
+    Vue.component('spaceship', {
+        props: ['bounds'],    
+	template: '<div class="ship" :style=[getStyle]></div>',
+	data: function() {
+	   return {
+            visible: false,
+	    velocity: 10,
+	    pos: {
+	        x: this.bounds.x / 2, 
+	        y: this.bounds.y / 2
+	    },
+            size: {
+            	height: 64,
+            	width: 64
+            }
+	  }
+	},
+        created: function(){
+            console.log('spaceship created with bounds ', this.bounds.x, this.bounds.y)
+            window.addEventListener('keydown', this.keyDown)
+            window.addEventListener('resize', this.setStartPos)  
+        },
+	computed: {
+	  getStyle: function(){
+	    return Object.assign(this.getPos, this.getSize)
+          },
+          getPos: function(){
+            return {top: this.pos.y + 'px', left: this.pos.x + 'px'}
+          },
+	  getSize: function(){
+	    return {height: this.size.height + 'px', width: this.size.width + 'px'}
+	  }
+	},
+        methods: {
+          keyDown: function(event){
+            event.preventDefault()           
+            if(event.keyCode === 72){ window.requestAnimationFrame(this.setStartPos) }
+  	    if(event.keyCode === 38){ window.requestAnimationFrame(this.moveUp) } 	
+  	    if(event.keyCode === 40){ window.requestAnimationFrame(this.moveDown) } 	
+  	    if(event.keyCode === 37){ window.requestAnimationFrame(this.moveLeft) } 	
+  	    if(event.keyCode === 39){ window.requestAnimationFrame(this.moveRight) } 	
+  	  },
+	  moveUp:    function() { this.move(this.pos.x, this.pos.y - this.velocity) },
+	  moveDown:  function() { this.move(this.pos.x, this.pos.y + this.velocity) },
+	  moveLeft:  function() { this.move(this.pos.x - this.velocity, this.pos.y) },
+	  moveRight: function() { this.move(this.pos.x + this.velocity, this.pos.y) },
+	  move: function(x,y) {
+              if(!this.outOfBounds(x,y)){
+		this.pos.x = x
+		this.pos.y = y       	
+              }
+	  },
+	  outOfBounds: function(x,y){
+	     if(x < 0 || x >= (this.bounds.x - this.size.width) ){ return true }		     
+	     if(y < 0 || y >= (this.bounds.y - this.size.height) ){ return true }		     
+	     return false
+	  },
+          setStartPos: function(){
+             this.move(this.bounds.x / 2, this.bounds.y / 2)
+          }             
+        }
+    })
+
+    // MAIN APP 
+    var app = new Vue({
+      el: '#app',
+      data: {
+        
+        asteroidRadiusMultiplier: 0.6,
+        asteroidCount: 0,
+        asteroidField: [],
+        asteroidMaxCount: 5,
+        bounds: {
+            x: Math.max(document.documentElement.clientWidth, window.innerWidth),
+            y: Math.max(document.documentElement.clientHeight, window.innerHeight)
+        }
+      },
+      mounted: function(){
+        window.addEventListener('resize', this.setBounds)  
+        this.generateAsteroid()
+      },
+      watch: {
+        asteroidField: function(){
+            if(this.asteroidField.length < this.asteroidMaxCount){
+                this.generateAsteroid()
+            }
+        }
+      },
+      methods: {
+        generatePoint: function(){
+            bX = this.bounds.x * this.asteroidRadiusMultiplier 
+            bY = this.bounds.y * this.asteroidRadiusMultiplier
+            radius = Math.sqrt((bX*bX) + (bY*bY))
+            angle = Math.random()*Math.PI*2
+            px = (Math.cos(angle)*radius)+(this.bounds.x / 2)
+            py = (Math.sin(angle)*radius)+(this.bounds.y / 2)
+            return {x: parseInt(px), y: parseInt(py)}
+        },
+        generateAsteroid: function(){
+            this.asteroidCount++
+            size = Math.floor(Math.random() * Math.floor(256))
+            p = this.generatePoint()
+            p2 = this.generatePoint()
+            this.asteroidField.push({
+                id: this.asteroidCount,
+                height: size,
+                width: size,            
+                x: p.x,
+                y: p.y,
+                x2: p2.x,
+                y2: p2.y
+            })
+        },
+        setBounds: function(){
+            this.bounds = {
+                x: Math.max(document.documentElement.clientWidth, window.innerWidth),
+                y: Math.max(document.documentElement.clientHeight, window.innerHeight)
+            }
+        },
+        removeAsteroid: function(id){
+            console.debug("Asteroid with id:",id,"has stopped flying. Removing from asteroidField")
+            idxToRemove = this.asteroidField.findIndex(function(x){return x.id === id})    
+            this.asteroidField.splice(idxToRemove,1)
+        },           
+        clearAsteroids: function(){
+            this.asteroidCount = 0
+            this.asteroidField = []                 
+        }                  
+      }
+    })
+
+
+  </script>
+</body>
+</html>
